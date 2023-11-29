@@ -1,4 +1,51 @@
 * {
-  box-sizing: border-box;
-  background-color: lightblue;
+    box-sizing: border-box;
+    background-color: lightblue;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+}
+
+header {
+    color: slateblue;
+    font-weight: bold;
+    font-size: 5vmin;
+    letter-spacing: 2vmin;
+    margin: 1vmin;
+}
+
+.timeLeft, .seconds {
+    color: royalblue;
+    height: 0.3vmin;
+
+}
+
+button {
+    color: darkblue;
+    background-color: lightgrey;
+    border: 0.5vmin solid whitesmoke;
+    border-radius: 2vmin;
+    font-size: 2vmin;
+    margin-top: 4vmin;
+    margin-bottom: 2vmin;
+}
+
+#board {
+    display: grid;
+    grid-template-columns: repeat(4, 15vmin);
+    grid-template-rows: repeat(4, 15vmin);
+    margin-top: 1vmin;
+    gap: 1vmin;
+}
+
+.squares {
+    display: flex;
+    border: 0.3vmin solid black;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
 }
