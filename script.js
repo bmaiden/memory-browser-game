@@ -1,6 +1,6 @@
 /*----- plan of action -----*/
-// 1) Display an empty game board when the page is initially displayed.
-// 2) A player can click on sixteen cells to make a move.
+// 1) Display an empty game board when the page is initially displayed.  √
+// 2) A player can click on sixteen cells to make a move.   
 // 3) Every two clicks will determine if there is a match.
 // 4) Once a match has been determined, the cells cannot be played again.
 // 5) Set a time limit to be met
@@ -52,16 +52,30 @@ function render() {
 
 };
 
-//function -squarePicked- main gameplay function, determines squares selected with a event listener
+//function -squarePicked- determines squares selected with a event listener
 function squarePicked(event) {
     //get index of square when clicked on
     const squareIdx = parseInt(event.target.id.replace(`sq-`, ''))
-    console.log('squareIdx', squareIdx)     //inspect displays squareIdx
+    //console.log('squareIdx', squareIdx)     //inspect displays squareIdx
+    //changed board array null to numbers and colors appeared.
+    //get colors for squares
+    
 
 
     //render updated state
     render()
 };
+
+//function -colorChoices- randomize colors for squares
+function randomColors() {   
+    colors.forEach((color) => {
+     const randomIndex = Math.floor(Math.random() * colors.length)
+    console.log('random index inside randomColors', randomIndex)
+    })  
+};
+
+randomColors()
+
 
 /*---- event listeners -----*/
 //click on square to make a move
