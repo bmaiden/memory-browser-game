@@ -31,7 +31,8 @@ const squareEls = [...document.querySelectorAll('#board > div')];
 function init () {
     board = [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]
 
-    renderBoard();
+    render();
+
 };
 init();
 
@@ -39,13 +40,30 @@ init();
 function renderBoard() {
     board.forEach((squareVal, squareIdx) => {
         const squareEls = document.getElementById(`sq-${squareIdx}`)
-        console.log('squareEls', squareEls)  //inspect displays div ID
+        //console.log('squareEls', squareEls)  //inspect displays div ID
         squareEls.style.backgroundColor = colors[squareVal]
-        console.log('squareVal', squareVal)  //inspect displays null
+        //console.log('squareVal', squareVal)  //inspect displays null
     })
 };
 
+//function -render- calls all of our render based functions at once;
+function render() {
+    renderBoard()
+
+};
+
+//function -squarePicked- main gameplay function, determines squares selected with a event listener
+function squarePicked(event) {
+    //get index of square when clicked on
+    const squareIdx = parseInt(event.target.id.replace(`sq-`, ''))
+    console.log('squareIdx', squareIdx)     //inspect displays squareIdx
+
+
+    //render updated state
+    render()
+};
 
 /*---- event listeners -----*/
-
+//click on square to make a move
+document.getElementById('board').addEventListener('click', squarePicked);
 
