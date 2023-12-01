@@ -34,7 +34,7 @@ const colors = [
 //console.log(colors);  //array of 16 created
 
 /*----- state variables -----*/
-let board; //an array
+let board;        //an array
 let squareColor;
 
 /*----- cached DOM elements  -----*/
@@ -125,17 +125,20 @@ function squarePicked(event) {
 //
 //  randomColors();
 
+// function -randomColors- randomize colors for squares
 function randomColors() {
   for (let i = 0; i < squareEls.length; i++) {
     const randomIndex = Math.floor(Math.random() * colors.length);
     squareColor = colors[randomIndex];
     colors.splice(randomIndex, 1);
-    console.log(squareColor);
+    // console.log(squareColor);                 //here gives all colors
+    // return (squareColor[randomIndex]);        //here gives one color with console log outside function
+    // return (squareColor[randomIndex], i);     //here gives one color with console log outside function
   }
 }
 
 randomColors();
-console.log(squareColor);
+console.log(squareColor);         //here gives one color for the return statement within the function
 /*---- event listeners -----*/
 //click on square to make a move
 document.getElementById("board").addEventListener("click", squarePicked);
