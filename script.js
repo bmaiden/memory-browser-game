@@ -72,9 +72,9 @@ init();
 function renderBoard() {
   board.forEach((squareVal, squareIdx) => {
     const squareEls = document.getElementById(`sq-${squareIdx}`);
-    //console.log('squareEls', squareEls)  //inspect displays div ID
+    // console.log('squareEls', squareEls)  //inspect displays div ID
     squareEls.style.backgroundColor = colors[squareVal];
-    //console.log('squareVal', squareVal)  //inspect displays null
+    // console.log('squareVal', squareVal)  //inspect displays null
   });
 }
 
@@ -84,50 +84,60 @@ function render() {
 }
 
 //function -squarePicked- determines squares selected with a event listener
-function squarePicked(event) {
+ function squarePicked(event) {
   //get index of square when clicked on
-  //const squareIdx = parseInt(event.target.id.replace(`sq-`, ""));
-  //console.log('squareIdx', squareIdx)     //inspect displays squareIdx
-  //changed board array null to numbers and colors appeared.
+  const squareIdx = parseInt(event.target.id.replace(`sq-`, ""));
+  //console.log('squareIdx:', squareIdx)     //console displays squareIdx
+  //changed board array null to numbers and colors display on board.
   //change color of square when clicked on
   
 
 
   //render updated state
   render();
-}
+ }
 
-//function -randomColors- randomize colors for squares - Tylus helped with this
-function randomColors() {
-  const colorsLeft = [...colors];
-  squareEls.forEach((square) => {
-    const randomColors = Math.floor(Math.random() * colorsLeft.length); //reducing list
-    square.style.backgroundColor = colorsLeft[randomColors];
-    colorsLeft.splice(randomColors, 1);
+// function -randomColors- randomize colors for squares - Tylus helped with this
+// function randomColors() {
+  // const colorsLeft = [...colors];
+  // squareEls.forEach((square) => {
+    // const randomColors = Math.floor(Math.random() * colorsLeft.length); //reducing list
+    // square.style.backgroundColor = colorsLeft[randomColors];
+    // colorsLeft.splice(randomColors, 1);
     // console.log(square.style)
-     console.log(colorsLeft[randomColors])
-     //console.log(randomColors)
+    // console.log(colorsLeft[randomColors])
+    // console.log(randomColors)
     // console.log(colorsLeft)      //inspect displays colors array reducing
-    //console.log('randomColors', colorsLeft)
-    //squareColor = square.style.backgroundColor
-    //console.log('squareColor equals:', squareColor)
-  });
-}
+    // console.log('randomColors', colorsLeft)
+    // squareColor = square.style.backgroundColor
+    // console.log('squareColor equals:', colorsLeft[randomColors])
+  // });
+// }
 
 // function randomColors() {
     // const colorsLeft = [...colors];
-    // squareEls.forEach((square) => {
-    //   const randomIndex = Math.floor(Math.random() * colorsLeft.length); //reducing list
-    //   const squareColor = colorsLeft[randomIndex]
-    //   colorsLeft.splice(randomColors, 1);
-    //   square.style.backgroundColor = squareColor
-    //   console.log(squareColor)
-//   
+    // squareEls.forEach((squareColor) => {
+      // const randomIndex = Math.floor(Math.random() * colorsLeft.length); //reducing list
+      // squareColor = colorsLeft[randomIndex]
+      // colorsLeft.splice(randomColors, 1);
+      // console.log('squareColor: ', squareColor)
+  // 
     // });
-//   }
+  // }
+// 
+//  randomColors();
 
-randomColors();
+function randomColors() {
+  for (let i = 0; i < squareEls.length; i++) {
+     const randomIndex = Math.floor(Math.random() * colors.length); 
+     squareColor = colors[randomIndex];
+     colors.splice(randomIndex, 1);
+     console.log(squareColor)
+  }
+ }
+ 
+ randomColors()
 
 /*---- event listeners -----*/
 //click on square to make a move
-document.getElementById("board").addEventListener("click", squarePicked);
+document.getElementById("board").addEventListener("click", squarePicked)
