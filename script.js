@@ -31,11 +31,11 @@ const colors = [
   "pink",
   "darkgray",
 ];
-//console.log(colors);  //array of 16 created
+// console.log(colors);  //array of 16 created
 
 /*----- state variables -----*/
 let board;        //an array
-let squareColor;
+let squareColor = [];
 
 /*----- cached DOM elements  -----*/
 //save HTML elements as variables to use later
@@ -45,25 +45,9 @@ const squareEls = [...document.querySelectorAll("#board > div")];
 /*----- functions -----*/
 //function -init- initializes an empty game board and runs when game loads
 function init() {
-  board = [
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-  ];
+  board = [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null];
 
+  randomColors();
   render();
 }
 init();
@@ -71,10 +55,11 @@ init();
 //function -renderBoard- renders the game board and applies background color for each element
 function renderBoard() {
   board.forEach((squareVal, squareIdx) => {
-    const squareEls = document.getElementById(`sq-${squareIdx}`);
-    // console.log('squareEls', squareEls)  //inspect displays div ID
-    squareEls.style.backgroundColor = colors[squareVal];
-    // console.log('squareVal', squareVal)  //inspect displays null
+     const squareEls = document.getElementById(`sq-${squareIdx}`);
+    //  console.log('squareEls', squareEls)  //inspect displays div ID
+    squareVal = squareColor[squareIdx]
+    squareEls.classList.add(squareColor[squareIdx]); 
+     console.log('squareVal', squareVal)  //inspect displays null
   });
 }
 
@@ -86,14 +71,14 @@ function render() {
 //function -squarePicked- determines squares selected with a event listener
 function squarePicked(event) {
   //get index of square when clicked on
-  const squareIdx = parseInt(event.target.id.replace(`sq-`, ""));
-  // console.log('squareIdx:', squareIdx)     //console displays squareIdx
+   const squareIdx = parseInt(event.target.id.replace(`sq-`, ""));
+   console.log('squareIdx:', squareIdx)     //console displays squareIdx
   //changed board array null to numbers and colors display on board.
   //change color of square when clicked on
-
+  event.target.style.backgroundColor = squareColor[squareIdx];
   //render updated state
-  render();
-}
+  // render();
+ }
 
 // function -randomColors- randomize colors for squares - Tylus helped with this
 // function randomColors() {
@@ -129,16 +114,16 @@ function squarePicked(event) {
 function randomColors() {
   for (let i = 0; i < squareEls.length; i++) {
     const randomIndex = Math.floor(Math.random() * colors.length);
-    squareColor = colors[randomIndex];
+    squareColor.push(colors[randomIndex]);
     colors.splice(randomIndex, 1);
-    // console.log(squareColor);                 //here gives all colors
+    console.log(squareColor);                 //here gives all colors
     // return (squareColor[randomIndex]);        //here gives one color with console log outside function
     // return (squareColor[randomIndex], i);     //here gives one color with console log outside function
   }
 }
 
-randomColors();
-console.log(squareColor);         //here gives one color for the return statement within the function
+// randomColors();
+// console.log(squareColor);         //here gives one color for the return statement within the function
 /*---- event listeners -----*/
 //click on square to make a move
 document.getElementById("board").addEventListener("click", squarePicked);
