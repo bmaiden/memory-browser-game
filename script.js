@@ -1,7 +1,7 @@
 /*----- plan of action -----*/
 // 1) Display an empty game board when the page is initially displayed.  √
-// 2) A player can click on sixteen cells to make a move.
-// 3) Every two clicks will determine if there is a match.
+// 2) A player can click on sixteen cells to make a move.   √  
+// 3) Every two clicks will determine if there is a match.   √
 // 4) Once a match has been determined, the cells cannot be played again.
 // 5) Set a time limit to be met
 // 6) Send message if won or loss
@@ -36,6 +36,9 @@ const colors = [
 /*----- state variables -----*/
 let board;        //an array
 let squareColor = [];
+let secondMove = true;
+let squareOne;
+let squareTwo;
 
 /*----- cached DOM elements  -----*/
 //save HTML elements as variables to use later
@@ -76,9 +79,34 @@ function squarePicked(event) {
   //changed board array null to numbers and colors display on board.
   //change color of square when clicked on
   event.target.style.backgroundColor = squareColor[squareIdx];
-  //render updated state
-  // render();
+
+  handleMove(event)
  }
+
+//function -handleMove- determine if the clicked square is the first or second.
+// if clicked square is not the second click, save the class value to squareOne variable
+// if clicked square is the second click, save the class value of clicked square to squareTwo variable
+// if squareOne = squareTwo there is a match, if not make style.backgroundColor invisible
+function handleMove(event) {
+  //prevent more than two clicks by toggling second move
+  secondMove = !secondMove;
+  console.log(secondMove)
+  console.log('bang', !secondMove)
+  console.log (event.target.classList)
+  if (secondMove === false) {
+    squareOne = event.target.classList[1] 
+    console.log(squareOne)
+  }else {
+    squareTwo = event.target.classList[1] 
+    console.log(squareTwo)
+    if (squareOne === squareTwo) {
+      console.log('It matches')
+    }else {
+      console.log('Not a match reset squares')
+    }
+  }
+
+};
 
 // function -randomColors- randomize colors for squares - Tylus helped with this
 // function randomColors() {
