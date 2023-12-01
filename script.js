@@ -66,13 +66,20 @@ function squarePicked(event) {
     render()
 };
 
-//function -colorChoices- randomize colors for squares
-function randomColors() {   
-    colors.forEach((color) => {
-     const randomIndex = Math.floor(Math.random() * colors.length)
-    console.log('random index inside randomColors', randomIndex)
-    })  
-};
+//function -colorChoices- randomize colors for squares Tylus helped with this
+function randomColors () {
+    const colorsLeft = [...colors]
+    //const availableSquares = board.filter(square => square === null)
+    squareEls.forEach(square => {
+        const randomColors = Math.floor(Math.random() * colorsLeft.length)  //reducing list
+        square.style.backgroundColor = colorsLeft[randomColors]
+        colorsLeft.splice(randomColors, 1)
+    //    console.log(square.style)
+     //   console.log(colorsLeft[randomColors])
+     //   console.log(randomColors)
+      //  console.log(colorsLeft)
+    })
+}
 
 randomColors()
 

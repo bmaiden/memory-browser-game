@@ -49,3 +49,8 @@ button {
     justify-content: center;
     align-items: center;
 }
+
+/*change level to a different % when ready to submit*/
+*{
+    filter: saturate(50%)
+}
