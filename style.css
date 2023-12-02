@@ -48,10 +48,10 @@ button {
     cursor: pointer;
     justify-content: center;
     align-items: center;
+    pointer-events: auto;
 }
 
 /*change level to a different % when ready to submit*/
-
 *{
     filter: saturate(50%)
 }

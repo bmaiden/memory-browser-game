@@ -2,10 +2,12 @@
 // 1) Display an empty game board when the page is initially displayed.  √
 // 2) A player can click on sixteen cells to make a move.   √
 // 3) Every two clicks will determine if there is a match.   √
-// 4) Once a match has been determined, the cells cannot be played again.
-// 5) Set a time limit to be met
-// 6) Send message if won or loss
-// 7) Provide a Reset Game function that will clear the contents of the board.
+// 4) After two clicks if no match, the squares will go back to original color.
+// 5) Once a match has been determined, the cells cannot be played again.
+// 6) Set a time limit to be met and determine win or loss.
+// 7) Send message if won or loss
+// 8) Make Play Again button visible using function -renderControls- 
+// 9) Provide a Reset Game function that will clear the contents of the board.
 
 //Testing to make sure HTML & CSS are linked to JS
 //console.log("This is working!");
@@ -44,6 +46,7 @@ let squareTwo;
 //save HTML elements as variables to use later
 //array for square elements - using spread operator to grab the nodelist and push into a new array
 const squareEls = [...document.querySelectorAll("#board > div")];
+const playAgainButton = document.querySelector('button');
 
 /*----- functions -----*/
 //function -init- initializes an empty game board and runs when game loads
@@ -79,13 +82,20 @@ function renderBoard() {
     //  console.log('squareEls', squareEls)  //inspect displays div ID
     squareVal = squareColor[squareIdx];
     squareEls.classList.add(squareColor[squareIdx]);
-    //  console.log('squareVal', squareVal)  //inspect displays color
+    //  console.log('squareVal', squareVal)  //inspect displays color and color name added as a .class to HTML
+
   });
 }
+
+//function -renderControls- changes visibility of the play again button using a ternary operator
+// function renderControls() {
+  // playAgainButton.style.visibility = winner ? 'visible' : 'hidden'
+// };
 
 //function -render- calls all of our render based functions at once;
 function render() {
   renderBoard();
+  // renderControls();
 }
 
 //function -squarePicked- determines squares selected with a event listener and changes the color on click
@@ -100,7 +110,7 @@ function squarePicked(event) {
   handleMove(event);
 }
 
-//function -handleMove- determine if the clicked square is the first or second.
+//function -handleMove- determine if the clicked square is the first or second. Called in the function -squarePicked-
 // if clicked square is not the second click, save the class value to squareOne variable
 // if clicked square is the second click, save the class value of clicked square to squareTwo variable
 // if squareOne = squareTwo there is a match, if not make style.backgroundColor invisible
@@ -117,10 +127,14 @@ function handleMove(event) {
     squareTwo = event.target.classList[1];
     // console.log(squareTwo);                    //inspect displays color of square
     if (squareOne === squareTwo) {
-      // console.log("It matches");                  //inspect displays if match
+      console.log('It matches');                  //inspect displays if match
     } else {
-      
-      // console.log("Not a match reset squares");   //inspect displays no match
+      // pointerEvents = "none"
+      event.target.classList[1].style.pointerEvents = "none"
+      // squareOne.style.backgroundColor = 'transparent'
+      // squareTwo.style.backgroundColor = 'transparent'
+
+      console.log('Not a match reset squares');   //inspect displays no match
     }
   }
 }
@@ -138,3 +152,5 @@ function randomColors() {
 /*---- event listeners -----*/
 //click on square to make a move
 document.getElementById("board").addEventListener("click", squarePicked);
+//click play again button will initialize and empty board and reset all variables
+// playAgainButton.addEventListener('click', init);
