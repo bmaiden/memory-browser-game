@@ -41,7 +41,7 @@ let squareColor = [];
 let secondMove = true;
 let squareOne;
 let squareTwo;
-let matchesMade = 0;
+let matchesMade;
 let firstSquare;
 let secondSquare;
 
@@ -75,6 +75,7 @@ function init() {
     null,
   ];
 
+
   randomColors();
   render();
 }
@@ -88,6 +89,7 @@ function renderBoard() {
     squareVal = squareColor[squareIdx];
     squareEls.classList.add(squareColor[squareIdx]);
     //  console.log('squareVal', squareVal)  //inspect displays color and color name added as a .class to HTML
+
   });
 }
 
@@ -99,7 +101,7 @@ function renderBoard() {
 //function -render- calls all of our render based functions at once;
 function render() {
   renderBoard();
-  
+  renderResults()
   // renderControls();
 }
 
@@ -134,13 +136,16 @@ function handleMove(event) {
     console.log(squareTwo); //inspect displays color of square
     if (squareOne === squareTwo) {
       matchesMade += 2;
-      // return matchesMade;
-      // console.log("It matches", matchesMade); //inspect displays if match
+      console.log("It matches", matchesMade); //inspect displays if match
     } else {
+       setTimeout(() => {
        firstSquare.style.backgroundColor = ''
        secondSquare.style.backgroundColor = ''
-      // console.log("Not a match reset squares", squareOne, squareTwo); //inspect displays no match
-    }
+
+       secondMove ? firstSquare = event.target : secondSquare = event.target
+      console.log("Not a match reset squares", squareOne, squareTwo); //inspect displays no match
+       }, 2000);
+    } 
   }
 }
 
@@ -168,8 +173,11 @@ function countDown() {
 // if matchesMade is 16 and countDown does not equal 0, send message 'You win!'
 // if matchesMade is less than 16 and countDown is equal to 0, send message 'Try again'
 function renderResults() {
-  if ((matchesMade = 16 && seconds.innerText != 0)) {
+  // if ((matchesMade = 16 && seconds.innerText != 0)) {
+    if ((matchesMade = 16)) {
     messageEl.innerText = `You win!`;
+  }else {
+    messageEl.innerText = `You lost, play again`;
   }
 }
 
