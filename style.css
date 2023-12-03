@@ -49,7 +49,10 @@ button {
   cursor: pointer;
   justify-content: center;
   align-items: center;
-  pointer-events: auto;
+}
+
+.squares:hover {
+    background-color: slateblue;
 }
 
 /*change level to a different % when ready to submit*/
