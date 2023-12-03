@@ -43,7 +43,6 @@ let squareOne;
 let squareTwo;
 let matchesMade = 0;
 
-
 /*----- cached DOM elements  -----*/
 //save HTML elements as variables to use later
 //array for square elements - using spread operator to grab the nodelist and push into a new array
@@ -131,8 +130,10 @@ function handleMove(event) {
     console.log(squareTwo); //inspect displays color of square
     if (squareOne === squareTwo) {
       matchesMade += 2;
+      return matchesMade;
       console.log("It matches", matchesMade); //inspect displays if match
     } else {
+      // event.target.classList[1].style.backgroundColor = ""
       // document.getElementsByClassName('.squares').style.pointerEvents = "none"
       // pointer-events: none;
       // PointerEvent = 'none'
@@ -143,28 +144,39 @@ function handleMove(event) {
       // squareTwo.style.backgroundColor = 'null'
       //event.target.classList.toggle('#board')
       console.log("Not a match reset squares"); //inspect displays no match
-
-    
     }
   }
 }
 
-// function -renderSeconds- will display the seconds remaining to the user
-function renderSeconds() {
-
+// function -countDown- will display the seconds remaining to the user
+function countDown() {
+  let count = 90;
+  // display the countdown h2 and set the text
+  seconds.style.visibility = "visible";
+  seconds.innerText = count;
+  // timer will update the DOM every second
+  const timerId = setInterval((cbFunction) => {
+    count--;                        //decrease the count
+    return count;
+    if (count) {
+      seconds.innerText = count;    //if count is truthy
+    } else {
+      clearInterval(timerId);
+      seconds.style.visibility = "hidden";
+      // when the timer is done, run the callback function
+      cbFunction();
+    }
+  }, 1000); // turns milliseconds, 1/1000th of a second, into seconds
 }
 
-
-// function -getWinner- uses matchesMade or timer to determine if there is a winner
-// if matchesMade is 16 and seconds does not equal 0, send message 'You win!'
-// if matchesMade is not 16 and seconds is equal to 0, send message 'Try again'
-function getWinner() {
-if (matchesMade == 16) {
-  messageEl.innerText = `You win!`
+// function -renderResults- uses matchesMade or timer to determine if there is a winner
+// if matchesMade is 16 and countDown does not equal 0, send message 'You win!'
+// if matchesMade is less than 16 and countDown is equal to 0, send message 'Try again'
+function renderResults() {
+  if (matchesMade = 16 && count != 0) {
+    messageEl.innerText = `You win!`;
+  }
 }
-
-
-};
 
 // function -randomColors- randomize colors for squares using squareColor array
 function randomColors() {
