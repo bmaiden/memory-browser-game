@@ -6,7 +6,7 @@
 // 5) Once a match has been determined, the cells cannot be played again.
 // 6) Set a time limit to be met and determine win or loss.
 // 7) Send message if won or loss
-// 8) Make Play Again button visible using function -renderControls- 
+// 8) Make Play Again button visible using function -renderControls-
 // 9) Provide a Reset Game function that will clear the contents of the board.
 
 //Testing to make sure HTML & CSS are linked to JS
@@ -41,12 +41,16 @@ let squareColor = [];
 let secondMove = true;
 let squareOne;
 let squareTwo;
+let matchesMade = 0;
+
 
 /*----- cached DOM elements  -----*/
 //save HTML elements as variables to use later
 //array for square elements - using spread operator to grab the nodelist and push into a new array
 const squareEls = [...document.querySelectorAll("#board > div")];
-const playAgainButton = document.querySelector('button');
+const playAgainButton = document.querySelector("button");
+const seconds = document.querySelector(".seconds");
+const messageEl = document.querySelector(".message");
 
 /*----- functions -----*/
 //function -init- initializes an empty game board and runs when game loads
@@ -83,13 +87,12 @@ function renderBoard() {
     squareVal = squareColor[squareIdx];
     squareEls.classList.add(squareColor[squareIdx]);
     //  console.log('squareVal', squareVal)  //inspect displays color and color name added as a .class to HTML
-
   });
 }
 
 //function -renderControls- changes visibility of the play again button using a ternary operator
 // function renderControls() {
-  // playAgainButton.style.visibility = winner ? 'visible' : 'hidden'
+// playAgainButton.style.visibility = matchesMade ? 'visible' : 'hidden'
 // };
 
 //function -render- calls all of our render based functions at once;
@@ -122,22 +125,46 @@ function handleMove(event) {
   // console.log (event.target.classList)     //inspect displays color associated with square clicked
   if (secondMove === false) {
     squareOne = event.target.classList[1];
-    // console.log(squareOne);                    //inspect displays color of square
+    console.log(squareOne); //inspect displays color of square
   } else {
     squareTwo = event.target.classList[1];
-    // console.log(squareTwo);                    //inspect displays color of square
+    console.log(squareTwo); //inspect displays color of square
     if (squareOne === squareTwo) {
-      console.log('It matches');                  //inspect displays if match
+      matchesMade += 2;
+      console.log("It matches", matchesMade); //inspect displays if match
     } else {
-      // pointerEvents = "none"
-      event.target.classList[1].style.pointerEvents = "none"
+      // document.getElementsByClassName('.squares').style.pointerEvents = "none"
+      // pointer-events: none;
+      // PointerEvent = 'none'
+      // event.target.classList[1].style.pointerEvents = "none"
       // squareOne.style.backgroundColor = 'transparent'
       // squareTwo.style.backgroundColor = 'transparent'
+      // squareOne.style.backgroundColor = 'null'
+      // squareTwo.style.backgroundColor = 'null'
+      //event.target.classList.toggle('#board')
+      console.log("Not a match reset squares"); //inspect displays no match
 
-      console.log('Not a match reset squares');   //inspect displays no match
+    
     }
   }
 }
+
+// function -renderSeconds- will display the seconds remaining to the user
+function renderSeconds() {
+
+}
+
+
+// function -getWinner- uses matchesMade or timer to determine if there is a winner
+// if matchesMade is 16 and seconds does not equal 0, send message 'You win!'
+// if matchesMade is not 16 and seconds is equal to 0, send message 'Try again'
+function getWinner() {
+if (matchesMade == 16) {
+  messageEl.innerText = `You win!`
+}
+
+
+};
 
 // function -randomColors- randomize colors for squares using squareColor array
 function randomColors() {

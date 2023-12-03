@@ -30,7 +30,7 @@ button {
     border: 0.5vmin solid whitesmoke;
     border-radius: 2vmin;
     font-size: 2vmin;
-    margin-top: 4vmin;
+    margin-top: 2vmin;
     margin-bottom: 2vmin;
 }
 
@@ -40,6 +40,7 @@ button {
     grid-template-rows: repeat(4, 15vmin);
     margin-top: 1vmin;
     gap: 1vmin;
+    background-color: lightblue;
 }
 
 .squares {
