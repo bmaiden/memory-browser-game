@@ -2,7 +2,7 @@
 // 1) Display an empty game board when the page is initially displayed.  √
 // 2) A player can click on sixteen cells to make a move.   √
 // 3) Every two clicks will determine if there is a match.   √
-// 4) After two clicks if no match, the squares will go back to original color.
+// 4) After two clicks if no match, the squares will go back to original color.  √
 // 5) Once a match has been determined, the cells cannot be played again.
 // 6) Set a time limit to be met and determine win or loss.
 // 7) Send message if won or loss
@@ -42,6 +42,8 @@ let secondMove = true;
 let squareOne;
 let squareTwo;
 let matchesMade = 0;
+let firstSquare;
+let secondSquare;
 
 /*----- cached DOM elements  -----*/
 //save HTML elements as variables to use later
@@ -97,6 +99,7 @@ function renderBoard() {
 //function -render- calls all of our render based functions at once;
 function render() {
   renderBoard();
+  
   // renderControls();
 }
 
@@ -117,6 +120,7 @@ function squarePicked(event) {
 // if clicked square is the second click, save the class value of clicked square to squareTwo variable
 // if squareOne = squareTwo there is a match, if not make style.backgroundColor invisible
 function handleMove(event) {
+  !secondMove ? firstSquare = event.target : secondSquare = event.target
   //prevent more than two clicks by toggling (hide or show) second move
   secondMove = !secondMove;
   // console.log(secondMove)                  //inspect displays value
@@ -130,20 +134,12 @@ function handleMove(event) {
     console.log(squareTwo); //inspect displays color of square
     if (squareOne === squareTwo) {
       matchesMade += 2;
-      return matchesMade;
-      console.log("It matches", matchesMade); //inspect displays if match
+      // return matchesMade;
+      // console.log("It matches", matchesMade); //inspect displays if match
     } else {
-      // event.target.classList[1].style.backgroundColor = ""
-      // document.getElementsByClassName('.squares').style.pointerEvents = "none"
-      // pointer-events: none;
-      // PointerEvent = 'none'
-      // event.target.classList[1].style.pointerEvents = "none"
-      // squareOne.style.backgroundColor = 'transparent'
-      // squareTwo.style.backgroundColor = 'transparent'
-      // squareOne.style.backgroundColor = 'null'
-      // squareTwo.style.backgroundColor = 'null'
-      //event.target.classList.toggle('#board')
-      console.log("Not a match reset squares"); //inspect displays no match
+       firstSquare.style.backgroundColor = ''
+       secondSquare.style.backgroundColor = ''
+      // console.log("Not a match reset squares", squareOne, squareTwo); //inspect displays no match
     }
   }
 }
@@ -156,24 +152,23 @@ function countDown() {
   seconds.innerText = count;
   // timer will update the DOM every second
   const timerId = setInterval((cbFunction) => {
-    count--;                        //decrease the count
-    return count;
+    count--; //decrease the count
     if (count) {
-      seconds.innerText = count;    //if count is truthy
+      seconds.innerText = count; //if count is truthy
     } else {
       clearInterval(timerId);
       seconds.style.visibility = "hidden";
       // when the timer is done, run the callback function
       cbFunction();
     }
-  }, 1000); // turns milliseconds, 1/1000th of a second, into seconds
+  }, 1000); // turns milliseconds, 1/1000th of a second, into  1 second
 }
 
 // function -renderResults- uses matchesMade or timer to determine if there is a winner
 // if matchesMade is 16 and countDown does not equal 0, send message 'You win!'
 // if matchesMade is less than 16 and countDown is equal to 0, send message 'Try again'
 function renderResults() {
-  if (matchesMade = 16 && count != 0) {
+  if ((matchesMade = 16 && seconds.innerText != 0)) {
     messageEl.innerText = `You win!`;
   }
 }
