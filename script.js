@@ -2,10 +2,10 @@
 // 1) Display an empty game board when the page is initially displayed.  √
 // 2) A player can click on sixteen cells to make a move.   √
 // 3) Every two clicks will determine if there is a match.   √
-// 4) After two clicks if no match, the squares will go back to original color after 2 seconds.  √
+// 4) After two clicks if no match, the squares will go back to original color after one second.  √
 // 5) Once a match has been determined, the cells cannot be played again.
 // 6) Send message if won or loss
-// 7) Make Play Again button visible using function -renderControls-
+// 7) Make Play Again button visible after win or loss
 // 8) Provide a Reset Game function that will clear the contents of the board.
 // 9) Set a time limit to be met and determine win or loss.
 
@@ -41,9 +41,9 @@ let squareColor = [];
 let secondMove = true;
 let squareOne;
 let squareTwo;
-let matchesMade = null;
-let firstSquare = null;
-let secondSquare = null;
+let matchesMade;
+let firstSquare;
+let secondSquare;
 
 /*----- cached DOM elements  -----*/
 //save HTML elements as variables to use later
@@ -75,6 +75,8 @@ function init() {
     null,
   ];
 
+  matchesMade = 0;
+
   randomColors();
   render();
 }
@@ -92,16 +94,16 @@ function renderBoard() {
 }
 
 //function -renderControls- changes visibility of the play again button using a ternary operator
-// function renderControls() {
-// playAgainButton.style.visibility = matchesMade ? 'visible' : 'hidden'
-// };
+function renderControls() {
+  playAgainButton.style.visibility = matchesMade ? "visible" : "hidden";
+}
 
 //function -render- calls all of our render based functions at once;
 function render() {
   renderBoard();
   // countDown()
-  // renderControls();
- }
+  renderControls();
+}
 
 //function -squarePicked- determines squares selected with a event listener and changes the color on click
 function squarePicked(event) {
@@ -119,36 +121,41 @@ function squarePicked(event) {
 // if clicked square is not the second click, save the class value to squareOne variable
 // if clicked square is the second click, save the class value of clicked square to squareTwo variable
 // if squareOne = squareTwo there is a match, if not make style.backgroundColor invisible
-function handleMove(event) {
-  !secondMove ? (firstSquare = event.target) : (secondSquare = event.target);
-  //prevent more than two clicks by toggling (hide or show) second move
-  secondMove = !secondMove;
-  // console.log(secondMove)                  //inspect displays value
-  // console.log('bang', !secondMove)         //inspect displays value using the bang operator
-  // console.log (event.target.classList)     //inspect displays color associated with square clicked
-  if (secondMove === false) {
-    squareOne = event.target.classList[1];
-    console.log(squareOne); //inspect displays color of square
-  } else {
-    squareTwo = event.target.classList[1];
-    console.log(squareTwo); //inspect displays color of square
-    if (squareOne === squareTwo) {
-      // event.target.removeEventListener("click", handleMove)
-      // firstSquare.removeEventListener("click", handleMove)
-      // secondSquare.removeEventListener("click", handleMove)
-      matchesMade += 2;
-      console.log("It matches", matchesMade, squareOne, squareTwo); //inspect displays if match
+function handleMove(firstSquare, secondSquare) {
+  return function curried_func(event) {
+    !secondMove ? (firstSquare = event.target) : (secondSquare = event.target);
+    // console.log(secondMove)                //truthy
+    //prevent more than two clicks by toggling (hide or show) second move
+    secondMove = !secondMove;
+    // console.log(secondMove)                  //inspect displays value
+    // console.log('bang', !secondMove)         //inspect displays value using the bang operator
+    // console.log (event.target.classList)     //inspect displays color associated with square clicked
+    if (secondMove === false) {
+      squareOne = event.target.classList[1];
+      console.log(squareOne); //inspect displays color of square
     } else {
-      setTimeout(() => {
-        firstSquare.style.backgroundColor = "";
-        secondSquare.style.backgroundColor = "";
+      squareTwo = event.target.classList[1];
+      console.log(squareTwo); //inspect displays color of square
+      if (squareOne === squareTwo) {
+        // event.target.removeEventListener("click", handleMove)
+        firstSquare.removeEventListener("click", handleMove(firstSquare))
+        secondSquare.removeEventListener("click", handleMove(secondSquare))
+        matchesMade += 2;
+        console.log("It matches", matchesMade, squareOne, squareTwo); //inspect displays if match
+      } else {
+        setTimeout(() => {
+          firstSquare.style.backgroundColor = "";
+          secondSquare.style.backgroundColor = "";
 
-        secondMove ? (firstSquare = event.target) : (secondSquare = event.target);
-        console.log("Not a match reset squares", squareOne, squareTwo); //inspect displays no match
-      }, 2000);
+          secondMove
+            ? (firstSquare = event.target)
+            : (secondSquare = event.target);
+          console.log("Not a match reset squares", squareOne, squareTwo); //inspect displays no match
+        }, 1000);
+      }
     }
   }
-}
+};
 
 // function -countDown- will display the seconds remaining to the user
 function countDown() {
@@ -157,15 +164,13 @@ function countDown() {
   secondsEl.style.visibility = "visible";
   secondsEl.innerText = count;
   // timer will update the DOM every second
-  const timerId = setInterval((cbFunction) => {
+  const timerId = setInterval(() => {
     count--; //decrease the count
     if (count) {
       secondsEl.innerText = count; //if count is truthy
     } else {
       clearInterval(timerId);
       secondsEl.style.visibility = "hidden";
-      // when the timer is done, run the callback function
-      cbFunction();
     }
   }, 1000); // turns milliseconds, 1/1000th of a second, into  1 second
 }
@@ -174,7 +179,7 @@ function countDown() {
 // if matchesMade is 16 and countDown does not equal 0, send message 'You win!'
 // if matchesMade is less than 16 and countDown is equal to 0, send message 'Try again'
 function renderResults() {
-  if ((matchesMade = 16)) {
+  if ((matchesMade = 16 && count > 0)) {
     messageEl.innerText = `You win!`;
   } else {
     messageEl.innerText = `You lost, play again`;
@@ -191,8 +196,23 @@ function randomColors() {
   }
 }
 
+// function -restartGame- resets game board squares and gameMatches
+function restartGame(squareEls) {
+  squareEls.forEach((squareEl) => (squareEl.style.backgroundColor = ""));
+  init();
+  playAgainButton.style.visibility = "hidden";
+}
+
 /*---- event listeners -----*/
 //click on square to make a move
 document.getElementById("board").addEventListener("click", squarePicked);
+document
+  .getElementById("board")
+  .addEventListener("click", handleMove(firstSquare));
+document
+  .getElementById("board")
+  .addEventListener("click", handleMove(secondSquare));
 //click play again button will initialize and empty board and reset all variables
-// playAgainButton.addEventListener('click', init);
+playAgainButton.addEventListener("click", function () {
+  restartGame(squareEls);
+});
