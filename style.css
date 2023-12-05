@@ -54,10 +54,10 @@ button {
 }
 
 .squares:hover {
-    background-color: whitesmoke;
+  background-color: rgb(235, 225, 225);
 }
 
 /*change level to a different % when ready to submit*/
 * {
-  filter: saturate(80%);
+  filter: saturate(70%);
 }

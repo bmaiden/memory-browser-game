@@ -110,20 +110,17 @@ function render() {
 
 //function -squarePicked- determines squares selected with a event listener and changes the color on click
 function squarePicked(event) {
+       //get index of square when clicked on
+       const squareIdx = parseInt(event.target.id.replace(`sq-`, ""));
+       console.log('squareIdx:', squareIdx)     //console displays squareIdx
+       //for testing, changed board array null to numbers and colors display on board.
   console.log(event.target)
   console.log(event.target.getAttribute("matched"))
-  if (event.target.matched === "true") {
-    return;
-   }   
-  //get index of square when clicked on
-  const squareIdx = parseInt(event.target.id.replace(`sq-`, ""));
-  //  console.log('squareIdx:', squareIdx)     //console displays squareIdx
-  //for testing, changed board array null to numbers and colors display on board.
   //change color of square when clicked on
   event.target.style.backgroundColor = squareColor[squareIdx];
+     
 
   handleMove(event);
-
 }
 
 //function -handleMove- determine if the clicked square is the first or second. Called in the function -squarePicked-
@@ -132,7 +129,11 @@ function squarePicked(event) {
 // if squareOne = squareTwo there is a match, if not make style.backgroundColor invisible
 // prevent more than two clicks by toggling (hide or show) second move
 function handleMove(event) {  
- 
+  if (event.target.matched === "true") {
+    return
+  }
+
+     
     !secondMove ? (firstSquare = event.target) : (secondSquare = event.target);
     // console.log(secondMove)                //truthy
     secondMove = !secondMove;
@@ -145,28 +146,31 @@ function handleMove(event) {
     } else {
       squareTwo = event.target.classList[1];
       // console.log(squareTwo); //inspect displays color of square
-      if (squareOne === squareTwo) {
-          // const squares = document.querySelectorAll('#board > div')
-          // console.log("squares event listener",squares)
-          // squares.addEventListener("click", squarePicked)
-        // event.target.removeEventListener("click", handleMove)
-        // firstSquare.removeEventListener("click", handleMove(firstSquare))
-        // secondSquare.removeEventListener("click", handleMove(secondSquare))
-        matchesMade += 2;
-        firstSquare.setAttribute("matched", "true")
-        secondSquare.setAttribute("matched", "true")
-        console.log(firstSquare)
-        console.log("It matches and count is" , matchesMade); //inspect displays if match
-      } else {
-        setTimeout(() => {
-          firstSquare.style.backgroundColor = "";
-          secondSquare.style.backgroundColor = "";
-
-          secondMove  ? (firstSquare = event.target) : (secondSquare = event.target);
-          console.log("Not a match reset squares", squareOne, squareTwo); //inspect displays no match
-        }, 1000);
+    if (squareOne === squareTwo) {
+        // const squares = document.querySelectorAll('#board > div')
+        // console.log("squares event listener",squares)
+        // squares.addEventListener("click", squarePicked)
+      // event.target.removeEventListener("click", handleMove)
+      // firstSquare.removeEventListener("click", handleMove(firstSquare))
+      // secondSquare.removeEventListener("click", handleMove(secondSquare))
+      if (event.target.matched === "true") {
+        return
       }
+      matchesMade += 2;
+      firstSquare.setAttribute("matched", "true")
+      secondSquare.setAttribute("matched", "true")
+      console.log(firstSquare)
+      console.log("It matches and count is" , matchesMade); //inspect displays if match
+    } else {
+      setTimeout(() => {
+        firstSquare.style.backgroundColor = "";
+        secondSquare.style.backgroundColor = "";
+        secondMove  ? (firstSquare = event.target) : (secondSquare = event.target);
+        console.log("Not a match reset squares", squareOne, squareTwo); //inspect displays no match
+      }, 1000);
     }
+    }
+    
   };
 
 
