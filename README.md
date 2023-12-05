@@ -1,11 +1,12 @@
 # Remember Me
 
 ## Overview
+
 This is a memory game where the player will choose two squares at a time to make a match. The player will have a limited amount of time to determine the matches and will be informed if they won or lost the game.
 
 ###### Main Game Screen
-![mainGameBoard](imgs/mainGameboardRM.png)
 
+![mainGameBoard](imgs/mainGameboardRM.png)
 
 ## User Stories
 
@@ -26,7 +27,6 @@ This is a memory game where the player will choose two squares at a time to make
   - timer
   - squareOnePicked
   - squareTwoPicked
-  - matches
 - Store elements on the page that will be accessed in code more than once in variables to make code more concise, readable and performant.
 - Upon loading the app should:
   - Initialize the state variables
@@ -35,8 +35,8 @@ This is a memory game where the player will choose two squares at a time to make
 - Handle a player clicking two squares
 - Handle a player clicking the replay button
 
-
 ## Technologies Used
+
 - HTML5
 - CSS3
 - JavaScript
