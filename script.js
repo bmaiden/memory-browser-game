@@ -104,7 +104,7 @@ function renderBoard() {
 //function -render- calls all of our render based functions at once;
 function render() {
   renderBoard();
-  // countDown();  
+  countDown();  
   // renderResults()
   // renderControls();
 }
@@ -119,8 +119,9 @@ function squarePicked(event) {
   // console.log(event.target.getAttribute("matched"))
   //change color of square when clicked on
   event.target.style.backgroundColor = squareColor[squareIdx];
-     
+
   handleMove(event);
+
 
 }
 
@@ -136,29 +137,29 @@ function handleMove(event) {
   // console.log(secondMove)                  //consoles falsy
   // console.log('bang', !secondMove)         //consoles truthy
   // console.log (event.target.classList)     //consoles "0": "squares" & "1": "color"  numbers do not change as you click on the squares only the color does
-  if (secondMove === false) {
-    squareOne = event.target.classList[1];
-    // console.log("squareOne", squareOne); //console displays "color" of square
-  } else {
-    squareTwo = event.target.classList[1];
-    // console.log("squareTwo", squareTwo); //console displays "color" of square
-    if (squareOne === squareTwo) {
-      matchesMade += 2;
-      console.log("It matches", matchesMade, squareOne, squareTwo, secondMove); 
-      //console displays "It matches" 2 "red" "red" true
+    if (secondMove === false) {
+      squareOne = event.target.classList[1];
+      // console.log("squareOne", squareOne); //console displays "color" of square
     } else {
-      setTimeout(() => {
-        firstSquare.style.backgroundColor = "";
-        secondSquare.style.backgroundColor = "";
+      squareTwo = event.target.classList[1];
+      // console.log("squareTwo", squareTwo); //console displays "color" of square
+      if (squareOne === squareTwo) {
+        matchesMade += 2;
+        console.log("It matches", matchesMade, squareOne, squareTwo, secondMove); 
+        //console displays "It matches" 2 "red" "red" true
+      } else {
+        messageEl.innerText = `Not a match, try again`;
+        setTimeout(() => {
+          firstSquare.style.backgroundColor = "";
+          secondSquare.style.backgroundColor = "";
+          messageEl.innerText = "";
 
-        secondMove
-          ? (firstSquare = event.target)
-          : (secondSquare = event.target);
-        console.log("Not a match reset squares", squareOne, squareTwo, secondMove); 
-        //console displays "Not a match reset squares" "pink" "yellow" true
-      }, 1500);
-    }
-  }
+          secondMove ? (firstSquare = event.target) : (secondSquare = event.target);
+          console.log("Not a match reset squares", squareOne, squareTwo, secondMove); 
+          //console displays "Not a match reset squares" "pink" "yellow" true
+        }, 1200);
+      }
+    } 
   }
 
 
@@ -169,13 +170,14 @@ function countDown() {
   secondsEl.style.visibility = "visible";
   secondsEl.innerText = count;
   // timer will update the DOM every second
-  const timerId = setInterval(() => {
+  const timerId = setInterval(function() {
     count--; //decrease the count
     if (count) {
       secondsEl.innerText = count; //if count is truthy
     } else {
       clearInterval(timerId);
       secondsEl.style.visibility = "hidden";
+      messageEl.innerText = `You lost, play again`;
     }
   }, 1000); // turns milliseconds, 1/1000th of a second, into  1 second
 }
@@ -183,18 +185,18 @@ function countDown() {
 // function -renderResults- uses matchesMade or timer to determine if there is a winner
 // if matchesMade is 16 and countDown does not equal 0, send message 'You win!'
 // if matchesMade is less than 16 and countDown is equal to 0, send message 'Try again'
-function renderResults() {
+// function renderResults() {
   // if (matchesMade = 16 ) {
     // messageEl.innerText = `You win!`;
   // } else {
     // messageEl.innerText = `You lost, play again`;
   // }
-if (secondsEl.style.visibility = "hidden") {
-      messageEl.innerText = `Let's Play`;
-  }else { 
-    messageEl.innerText = `You lost, play again`;
-  }
-}
+  // if (secondsEl.style.visibility = "hidden") {
+        // messageEl.innerText = `Let's Play`;
+    // }else { 
+      // messageEl.innerText = `You lost, play again`;
+    // }
+  // }
 
 // function -randomColors- randomize colors for squares using squareColor array
 function randomColors() {
