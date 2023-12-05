@@ -4,10 +4,10 @@
 // 3) Every two clicks will determine if there is a match.   √
 // 4) After two clicks if no match, the squares will go back to original color after one second.  √
 // 5) Once a match has been determined, the cells cannot be played again.
-// 6) Send message if loss  √
-// 7) Make Play Again button visible after win or loss  √
-// 8) Provide a Reset Game function that will clear the contents of the board.  √
-// 9) Set a time limit to be met and determine win or loss.  √
+// 6) Send message if loss
+// 7) Make Play Again button visible after win or loss
+// 8) Provide a Reset Game function that will clear the contents of the board.
+// 9) Set a time limit to be met and determine win or loss.
 
 //Testing to make sure HTML & CSS are linked to JS
 //console.log("This is working!");
@@ -136,14 +136,13 @@ function handleMove(event) {
   // console.log (event.target.classList)     //consoles "0": "squares" & "1": "color"  numbers do not change as you click on the squares only the color does
   if (secondMove === false) {
     squareOne = event.target.classList[1];
-    console.log(squareOne.id)
     // console.log("squareOne", squareOne); //console displays "color" of square
   } else {
     squareTwo = event.target.classList[1];
     // console.log("squareTwo", squareTwo); //console displays "color" of square
     if (squareOne === squareTwo) {
       matchesMade += 2;
-      // console.log("It matches", matchesMade, squareOne, squareTwo, secondMove);
+      console.log("It matches", matchesMade, squareOne, squareTwo, secondMove);
       //console displays "It matches" 2 "red" "red" true
     } else {
       messageEl.innerText = `Not a match, try again`;
