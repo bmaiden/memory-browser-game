@@ -79,7 +79,7 @@ function init() {
     null,
   ];
 
-  matchesMade = 14;
+  matchesMade = 0;
 
   randomColors();
   render();
@@ -125,7 +125,7 @@ function squarePicked(event) {
   event.target.style.backgroundColor = squareColor[squareIdx];
 
   handleMove(event);
-  checkWinner()
+  // checkWinner()
 }
 
 //function -handleMove- determine if the clicked square is the first or second. Called in the function -squarePicked-
@@ -177,7 +177,7 @@ function handleMove(event) {
 // function -countDown- will display the seconds remaining to the user
 function countDown() {
   playAgainButton.style.visibility = "hidden";
-  count = 2;
+  count = 60;
   // display the countdown h2 and set the text
   secondsEl.style.visibility = "visible";
   secondsEl.innerText = count;
@@ -189,7 +189,7 @@ function countDown() {
     } else {
       clearInterval(timerId);
       secondsEl.style.visibility = "hidden";
-      messageEl.innerText = `You lost, play again`;
+      // messageEl.innerText = `You lost, play again`;
       playAgainButton.style.visibility = "visible";
     }
   }, 1000); // turns milliseconds, 1/1000th of a second, into  1 second

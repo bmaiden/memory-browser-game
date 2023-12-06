@@ -4,10 +4,11 @@
 // 3) Every two clicks will determine if there is a match.   √
 // 4) After two clicks if no match, the squares will go back to original color after one second.  √
 // 5) Once a match has been determined, the cells cannot be played again.
-// 6) Send message if loss
-// 7) Make Play Again button visible after win or loss
-// 8) Provide a Reset Game function that will clear the contents of the board.
-// 9) Set a time limit to be met and determine win or loss.
+// 6) Send message if loss  √
+// 7) Make Play Again button visible after win or loss  √
+// 8) Provide a Reset Game function that will clear the contents of the board.  √
+// 9) Set a time limit to be met and determine loss.  √
+// 10) Set a win for matches made.  
 
 //Testing to make sure HTML & CSS are linked to JS
 //console.log("This is working!");
@@ -46,6 +47,7 @@ let squareTwoColor;
 let matchesMade;
 let firstSquare;
 let secondSquare;
+let count;
 
 /*----- cached DOM elements  -----*/
 //save HTML elements as variables to use later
@@ -110,16 +112,20 @@ function render() {
 
 //function -squarePicked- determines squares selected with a event listener and changes the color on click
 function squarePicked(event) {
+  console.log(event.target.getAttribute("style"));
+  console.dir(event.target);
+  if (event.target.getAttribute("style")) {
+    return;
+  }
   //get index of square when clicked on
   const squareIdx = parseInt(event.target.id.replace(`sq-`, ""));
-  // console.log('squareIdx:', squareIdx)     //console displays squareIdx
+  //  console.log('squareIdx:', squareIdx)     //console displays squareIdx
   //for testing, changed board array null to numbers and colors display on board.
-  // console.log(event.target)
-  // console.log(event.target.getAttribute("matched"))
   //change color of square when clicked on
   event.target.style.backgroundColor = squareColor[squareIdx];
 
   handleMove(event);
+  // checkWinner()
 }
 
 //function -handleMove- determine if the clicked square is the first or second. Called in the function -squarePicked-
@@ -136,14 +142,17 @@ function handleMove(event) {
   // console.log (event.target.classList)     //consoles "0": "squares" & "1": "color"  numbers do not change as you click on the squares only the color does
   if (secondMove === false) {
     squareOne = event.target.classList[1];
+    console.log(squareOne.id);
     // console.log("squareOne", squareOne); //console displays "color" of square
   } else {
     squareTwo = event.target.classList[1];
     // console.log("squareTwo", squareTwo); //console displays "color" of square
     if (squareOne === squareTwo) {
       matchesMade += 2;
-      console.log("It matches", matchesMade, squareOne, squareTwo, secondMove);
-      //console displays "It matches" 2 "red" "red" true
+      firstSquare.setAttribute("matched", "true");
+      secondSquare.setAttribute("matched", "true");
+      console.log(firstSquare);
+      console.log("It matches and count is", matchesMade); //inspect displays if match
     } else {
       messageEl.innerText = `Not a match, try again`;
       setTimeout(() => {
@@ -159,8 +168,7 @@ function handleMove(event) {
           squareOne,
           squareTwo,
           secondMove
-        );
-        //console displays "Not a match reset squares" "pink" "yellow" true
+        ); //console displays "Not a match reset squares" "pink" "yellow" true
       }, 1200);
     }
   }
@@ -169,7 +177,7 @@ function handleMove(event) {
 // function -countDown- will display the seconds remaining to the user
 function countDown() {
   playAgainButton.style.visibility = "hidden";
-  let count = 30;
+  count = 60;
   // display the countdown h2 and set the text
   secondsEl.style.visibility = "visible";
   secondsEl.innerText = count;
@@ -183,7 +191,6 @@ function countDown() {
       secondsEl.style.visibility = "hidden";
       messageEl.innerText = `You lost, play again`;
       playAgainButton.style.visibility = "visible";
-      // document.getElementById("board").removeEventListener("click", handleMove)
     }
   }, 1000); // turns milliseconds, 1/1000th of a second, into  1 second
 }
@@ -192,7 +199,7 @@ function countDown() {
 // if matchesMade is 16 and countDown does not equal 0, send message 'You win!'
 // if matchesMade is less than 16 and countDown is equal to 0, send message 'Try again'
 // function renderResults() {
-// if (matchesMade = 16 ) {
+// if ((matchesMade = 16) && (count = true)) {
 // messageEl.innerText = `You win!`;
 // } else {
 // messageEl.innerText = `You lost, play again`;
@@ -202,7 +209,18 @@ function countDown() {
 // }else {
 // messageEl.innerText = `You lost, play again`;
 // }
-// }
+
+function checkWinner() { 
+  if ((matchesMade === 16) && (count > 0)) {
+    messageEl.innerText = `You win!`;
+    console.log(`You Win!`, matchesMade, count)
+  } else if ((matchesMade !== 16) && (count <= 0)) {
+    messageEl.innerText = `You lost, play again`;
+    console.log(`You Loss!`, matchesMade, count)
+  } else {
+    messageEl.innerText = `No match, try another guess`;
+  }
+}
 
 // function -randomColors- randomize colors for squares using squareColor array
 function randomColors() {
