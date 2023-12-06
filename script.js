@@ -110,14 +110,17 @@ function render() {
 
 //function -squarePicked- determines squares selected with a event listener and changes the color on click
 function squarePicked(event) {
-  //get index of square when clicked on
-  const squareIdx = parseInt(event.target.id.replace(`sq-`, ""));
-  // console.log('squareIdx:', squareIdx)     //console displays squareIdx
-  //for testing, changed board array null to numbers and colors display on board.
-  // console.log(event.target)
-  // console.log(event.target.getAttribute("matched"))
-  //change color of square when clicked on
-  event.target.style.backgroundColor = squareColor[squareIdx];
+    console.log(event.target.getAttribute("style"))
+    console.dir(event.target)
+    if (event.target.getAttribute("style")) {
+      return;
+     }   
+    //get index of square when clicked on
+    const squareIdx = parseInt(event.target.id.replace(`sq-`, ""));
+    //  console.log('squareIdx:', squareIdx)     //console displays squareIdx
+    //for testing, changed board array null to numbers and colors display on board.
+    //change color of square when clicked on
+    event.target.style.backgroundColor = squareColor[squareIdx];
 
   handleMove(event);
 }
@@ -143,8 +146,10 @@ function handleMove(event) {
     // console.log("squareTwo", squareTwo); //console displays "color" of square
     if (squareOne === squareTwo) {
       matchesMade += 2;
-      // console.log("It matches", matchesMade, squareOne, squareTwo, secondMove);
-      //console displays "It matches" 2 "red" "red" true
+      firstSquare.setAttribute("matched", "true")
+      secondSquare.setAttribute("matched", "true")
+      console.log(firstSquare)
+      console.log("It matches and count is" , matchesMade); //inspect displays if match
     } else {
       messageEl.innerText = `Not a match, try again`;
       setTimeout(() => {
@@ -170,7 +175,7 @@ function handleMove(event) {
 // function -countDown- will display the seconds remaining to the user
 function countDown() {
   playAgainButton.style.visibility = "hidden";
-  let count = 30;
+  let count = 90;
   // display the countdown h2 and set the text
   secondsEl.style.visibility = "visible";
   secondsEl.innerText = count;
