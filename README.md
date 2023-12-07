@@ -14,6 +14,7 @@ This is a memory game where the player will choose two squares at a time to make
   - click to start the game
   - click two squares at a time to determine a match
   - see the time left to play
+  - see when matches are made
   - be informed of win or loss
   - have the ability to play again
 
@@ -21,12 +22,20 @@ This is a memory game where the player will choose two squares at a time to make
 
 - Define required constants
   - array of colors
-  - squareOnePicked
-  - squareTwoPicked
+  - board
+
 - Define required variables used to track the state of the game
-  - timer
+  - secondMove
   - squareOnePicked
   - squareTwoPicked
+  - squareOneColor
+  - squareTwoColor
+  - matchesMade
+  - firstSquare
+  - secondSquare
+  - timer
+  - winner
+
 - Store elements on the page that will be accessed in code more than once in variables to make code more concise, readable and performant.
 - Upon loading the app should:
   - Initialize the state variables
@@ -40,3 +49,9 @@ This is a memory game where the player will choose two squares at a time to make
 - HTML5
 - CSS3
 - JavaScript
+
+## Next steps
+
+- On else statement for 'Not a match, try again', make unmatched squares unclickable until the setTimeout function time has completed.
+- Stablize the board so clicking doesn't cause it to move.
+

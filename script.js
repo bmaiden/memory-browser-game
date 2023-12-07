@@ -8,7 +8,7 @@
 // 7) Make Play Again button visible after win or loss  √
 // 8) Provide a Reset Game function that will clear the contents of the board.  √
 // 9) Set a time limit to be met and determine loss.  √
-// 10) Set a win for matches made.
+// 10) Set a win for matches made.  √
 
 //Testing to make sure HTML & CSS are linked to JS
 //console.log("This is working!");
@@ -111,7 +111,7 @@ function squarePicked(event) {
   event.target.style.backgroundColor = squareColor[squareIdx];
 
   handleMove(event);
-  checkWinner()
+  checkWinner();
 }
 
 //function -handleMove- determine if the clicked square is the first or second. Called in the function -squarePicked-
@@ -120,7 +120,7 @@ function squarePicked(event) {
 // if squareOne = squareTwo there is a match, if not make style.backgroundColor invisible
 // prevent more than two clicks by toggling (hide or show) second move
 function handleMove(event) {
-  if(!count || matchesMade >= 16){
+  if (!count || matchesMade >= 16) {
     return;
   }
   !secondMove ? (firstSquare = event.target) : (secondSquare = event.target);
@@ -137,7 +137,6 @@ function handleMove(event) {
       matchesMade += 2;
       firstSquare.setAttribute("matched", "true");
       secondSquare.setAttribute("matched", "true");
-
     } else {
       messageEl.innerText = `Not a match, try again`;
       setTimeout(() => {
@@ -145,8 +144,10 @@ function handleMove(event) {
         secondSquare.style.backgroundColor = "";
         messageEl.innerText = "";
 
-        secondMove ? (firstSquare = event.target) : (secondSquare = event.target);
-      }, 800);
+        secondMove
+          ? (firstSquare = event.target)
+          : (secondSquare = event.target);
+      }, 500);
     }
   }
 }
@@ -161,37 +162,30 @@ function countDown() {
   // timer will update the DOM every second
   const timerId = setInterval(function () {
     count--; //decrease the count
-    if (count && !winner ) {
+    if (count && !winner) {
       secondsEl.innerText = count; //if count is truthy
-      console.log("count,no winner")
-    } else if (winner){
+      console.log("count,no winner");
+    } else if (winner) {
       clearInterval(timerId);
       secondsEl.style.visibility = "hidden";
       playAgainButton.style.visibility = "visible";
-      console.log("winner")
-    }else {
+      console.log("winner");
+    } else {
       clearInterval(timerId);
       messageEl.innerText = `You lost, play again`;
       secondsEl.style.visibility = "hidden";
       playAgainButton.style.visibility = "visible";
-      console.log("no count, no winner")
+      console.log("no count, no winner");
     }
   }, 1000); // turns milliseconds, 1/1000th of a second, into  1 second
 }
 
 // function -checkWinner- uses matchesMade or timer to determine if there is a winner
 function checkWinner() {
-
-  console.log(matchesMade, count)
   if (matchesMade === 16 && count > 0) {
     winner = true;
     messageEl.innerText = `You win!`;
     console.log(`You Win!`, matchesMade, count);
-  // } else if (matchesMade !== 16 && count <= 0) {
-    // messageEl.innerText = `You lost, play again`;
-    // console.log(`You Loss!`, matchesMade, count);
-  // } else {
-    // messageEl.innerText = `No match, try another guess`;
   }
 }
 
